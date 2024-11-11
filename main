@@ -1,86 +1,75 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-public class ChibiPomodoroTimer {
-    private static final int WORK_DURATION = 1;       // Work duration in minutes (for testing, set to 1)
-    private static final int SHORT_BREAK_DURATION = 1; // Short break duration in minutes
-    private static final int LONG_BREAK_DURATION = 2;  // Long break duration in minutes
-    private static final int POMODOROS_BEFORE_LONG_BREAK = 4;
+public class ChibiPomodoro {
     
+    private static final int WORK_DURATION = 25;       // Work duration in minutes
+    private static final int SHORT_BREAK_DURATION = 5; // Short break duration in minutes
+    private static final int LONG_BREAK_DURATION = 15;  // Long break duration in minutes
+    private static final int POMODOROS_BEFORE_LONG_BREAK = 4;
+
+    private List<Task> tasks = new ArrayList<>();
     private int pomodorosCompleted = 0;
 
     public static void main(String[] args) {
-        ChibiPomodoroTimer timer = new ChibiPomodoroTimer();
-        timer.displayMenu();
+        ChibiPomodoro pomodoro = new ChibiPomodoro();
+        pomodoro.showMenu();
     }
 
-    // Display the main menu
-    private void displayMenu() {
+    // Main menu display and handling
+    private void showMenu() {
         Scanner scanner = new Scanner(System.in);
-        
         while (true) {
-            System.out.println("\n=========================");
-            System.out.println("🍅 Chibi Pomodoro Timer 🍅");
-            System.out.println("=========================");
+            System.out.println("\n=== Chibi Pomodoro Timer ===");
             System.out.println("1. Start Pomodoro Timer");
-            System.out.println("2. What is Pomodoro Timer about?");
-            System.out.println("3. Exit");
+            System.out.println("2. To-Do List");
+            System.out.println("3. What is Pomodoro Timer?");
+            System.out.println("4. Exit");
             System.out.print("Choose an option: ");
-            
-            String choice = scanner.nextLine();
-            
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
             switch (choice) {
-                case "1":
+                case 1:
                     startPomodoroCycle(scanner);
                     break;
-                case "2":
-                    displayPomodoroExplanation();
+                case 2:
+                    manageToDoList(scanner);
                     break;
-                case "3":
+                case 3:
+                    displayPomodoroInfo();
+                    break;
+                case 4:
                     System.out.println("Thank you for using the Chibi Pomodoro Timer! Have a productive day! 🍅");
                     scanner.close();
                     return;
                 default:
-                    System.out.println("Invalid option. Please choose 1, 2, or 3.");
+                    System.out.println("Invalid choice. Try again.");
             }
         }
     }
 
-    // Display explanation of the Pomodoro Technique
-    private void displayPomodoroExplanation() {
-        System.out.println("\n🍅 What is Pomodoro Timer about?");
-        System.out.println("The secret to effective time management is... thinking in tomatoes rather than hours.");
-        System.out.println("It may seem silly initially, but millions of people swear by the life-changing power of the Pomodoro Technique.");
-        System.out.println("(Pomodoro is Italian for tomato. 🍅)\n");
-        System.out.println("This popular time management method asks you to alternate pomodoros — focused work sessions —");
-        System.out.println("with frequent short breaks to promote sustained concentration and stave off mental fatigue.");
-        System.out.println("\nThe Pomodoro Technique may be for you if you…");
-        System.out.println("• Find little distractions often derail the whole workday");
-        System.out.println("• Consistently work past the point of optimal productivity");
-        System.out.println("• Have lots of open-ended work that could take unlimited amounts of time");
-        System.out.println("• Are overly optimistic when it comes to how much you can get done in a day (aren’t we all 🙃)");
-        System.out.println("• Enjoy gamified goal-setting");
-        System.out.println("• Really like tomatoes 🍅");
-    }
-
-    // Pomodoro timer cycle logic
+    // Pomodoro cycle logic
     private void startPomodoroCycle(Scanner scanner) {
         while (true) {
             printChibiBanner();
             System.out.println("🍅 Starting work session!");
-            startTimer(WORK_DURATION, "Work");
+            runTimer(WORK_DURATION, "Work");
 
             pomodorosCompleted++;
             displayMotivationalMessage();
-            
+
             if (pomodorosCompleted % POMODOROS_BEFORE_LONG_BREAK == 0) {
                 System.out.println("🌼 Long break time! 🌼");
-                startTimer(LONG_BREAK_DURATION, "Long Break");
+                runTimer(LONG_BREAK_DURATION, "Long Break");
             } else {
                 System.out.println("💫 Short break time! 💫");
-                startTimer(SHORT_BREAK_DURATION, "Short Break");
+                runTimer(SHORT_BREAK_DURATION, "Short Break");
             }
-            
+
             System.out.print("\nContinue with another Pomodoro? (yes/no): ");
             String response = scanner.nextLine();
             if (!response.equalsIgnoreCase("yes")) {
@@ -91,12 +80,12 @@ public class ChibiPomodoroTimer {
         }
     }
 
-    // Timer countdown with theme display
-    private void startTimer(int durationMinutes, String sessionType) {
+    // Timer with themed display
+    private void runTimer(int durationMinutes, String sessionType) {
         try {
             for (int i = durationMinutes; i > 0; i--) {
                 System.out.printf("\r%s Time left: %d minute(s) ⏳", sessionType, i);
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.SECONDS.sleep(1); // For testing; adjust to TimeUnit.MINUTES for real use
             }
             System.out.println("\n⏰ Time's up for " + sessionType + "!");
         } catch (InterruptedException e) {
@@ -104,20 +93,103 @@ public class ChibiPomodoroTimer {
         }
     }
 
-    // Display a chibi-themed motivational message
+    // Motivational messages
     private void displayMotivationalMessage() {
-        String[] motivationalMessages = {
+        String[] messages = {
             "Great job! Keep going! 😊",
             "You're awesome! Keep up the great work! 🌟",
             "One step closer to your goals! 🌈",
             "You're unstoppable! 🚀",
             "Take a deep breath and let's go again! 🍃"
         };
-        
-        System.out.println("\n🌟 " + motivationalMessages[pomodorosCompleted % motivationalMessages.length] + " 🌟\n");
+        System.out.println("\n🌟 " + messages[pomodorosCompleted % messages.length] + " 🌟\n");
     }
 
-    // Chibi-themed banner for the app
+    // Display Pomodoro Technique information
+    private void displayPomodoroInfo() {
+        System.out.println("\n=== What is Pomodoro Timer? ===");
+        System.out.println("The Pomodoro Technique alternates work sessions (pomodoros) with short breaks to maintain concentration and avoid burnout.");
+        System.out.println("Cycle: work for 25 minutes, followed by a 5-minute break. After 4 cycles, take a longer break (15 minutes). 🍅");
+    }
+
+    // To-Do List management
+    private void manageToDoList(Scanner scanner) {
+        while (true) {
+            System.out.println("\n=== To-Do List ===");
+            System.out.println("1. Add Task");
+            System.out.println("2. View Tasks");
+            System.out.println("3. Mark Task as Completed");
+            System.out.println("4. Back to Main Menu");
+            System.out.print("Choose an option: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    addTask(scanner);
+                    break;
+                case 2:
+                    viewTasks();
+                    break;
+                case 3:
+                    markTaskCompleted(scanner);
+                    break;
+                case 4:
+                    return;
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
+        }
+    }
+
+    // Add a task to the To-Do List
+    private void addTask(Scanner scanner) {
+        System.out.print("Enter task name: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Enter estimated time to complete (minutes): ");
+        int estimatedTime = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        tasks.add(new Task(name, estimatedTime));
+        System.out.println("Task added successfully.");
+    }
+
+    // View all tasks in the To-Do List
+    private void viewTasks() {
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks available.");
+            return;
+        }
+        System.out.println("\n=== To-Do List Tasks ===");
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            System.out.printf("%d. %s - Estimated time: %d minutes - Status: %s\n", i + 1, task.getName(),
+                              task.getEstimatedTime(), task.isCompleted() ? "Completed" : "In Progress");
+        }
+    }
+
+    // Mark a task as completed
+    private void markTaskCompleted(Scanner scanner) {
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks available.");
+            return;
+        }
+
+        System.out.print("Enter task number to mark as completed: ");
+        int taskNumber = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        if (taskNumber < 1 || taskNumber > tasks.size()) {
+            System.out.println("Invalid task number.");
+        } else {
+            tasks.get(taskNumber - 1).setCompleted(true);
+            System.out.println("Task marked as completed.");
+        }
+    }
+
+    // Display chibi banner
     private void printChibiBanner() {
         System.out.println("\n====================");
         System.out.println("🍅 Chibi Pomodoro Timer 🍅");
@@ -125,10 +197,28 @@ public class ChibiPomodoroTimer {
         System.out.println("~ Let's stay focused together! ~");
     }
 
-    // Display a summary of completed Pomodoros
+    // Display summary of Pomodoros completed
     private void displaySessionSummary() {
         System.out.println("\n🌸 Summary of Completed Pomodoros 🌸");
         System.out.println("Total Pomodoros completed: " + pomodorosCompleted);
         System.out.println("Great work today! See you next time! 🐱");
+    }
+
+    // Task class for the To-Do List
+    private static class Task {
+        private String name;
+        private int estimatedTime;
+        private boolean completed;
+
+        public Task(String name, int estimatedTime) {
+            this.name = name;
+            this.estimatedTime = estimatedTime;
+            this.completed = false;
+        }
+
+        public String getName() { return name; }
+        public int getEstimatedTime() { return estimatedTime; }
+        public boolean isCompleted() { return completed; }
+        public void setCompleted(boolean completed) { this.completed = completed; }
     }
 }
