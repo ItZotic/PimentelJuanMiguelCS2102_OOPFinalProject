@@ -4,11 +4,10 @@ II. Explanation of how OOP principles were applied
 
 III. Details of the chosen SDG and its integration into the project
 
--Goal 8
+-Goal **8** :
 
-  Promote sustained, inclusive and sustainable economic growth, full and productive employment and decent work for all
 
-The Chibi Pomodoro Timer project can align with the Sustainable Development Goal (SDG) **8**: **Promoting sustained, inclusive, and sustainable economic growth, full and productive employment, and decent work for all**. Specifically, it supports:
+  **Promoting sustained, inclusive, and sustainable economic growth, full and productive employment, and decent work for all**. Specifically, it supports:
 
 ### 1. **Increased Productivity and Focus**  
    - **Effective Time Management**: The Pomodoro Technique is a proven productivity method that helps individuals manage time effectively, allowing them to work in shorter, focused sessions. This timer encourages workers to break tasks into manageable chunks, boosting efficiency and reducing burnout.
