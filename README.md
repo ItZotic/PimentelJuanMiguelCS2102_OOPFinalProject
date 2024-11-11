@@ -5,6 +5,7 @@ II. Explanation of how OOP principles were applied
 III. Details of the chosen SDG and its integration into the project
 
 -Goal 8
+
   Promote sustained, inclusive and sustainable economic growth, full and productive employment and decent work for all
 
 The Chibi Pomodoro Timer project can align with the Sustainable Development Goal (SDG) **8**: **Promoting sustained, inclusive, and sustainable economic growth, full and productive employment, and decent work for all**. Specifically, it supports:
