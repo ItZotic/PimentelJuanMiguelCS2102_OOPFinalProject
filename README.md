@@ -1,5 +1,14 @@
 I. A brief project overview
 
+### Encapsulation keeps the data safe by hiding it inside classes, and only allowing controlled access via public methods.
+
+### Inheritance allows us to extend functionality, promoting code reuse and making it easier to manage different types of tasks.
+
+### Polymorphism provides flexibility by enabling different objects to respond uniquely to method calls, enhancing the app’s versatility.
+
+### Abstraction simplifies the user experience by hiding the complex details of the Pomodoro timer and task management, allowing users to focus on the main goal: staying productive.
+
+
 II. Explanation of how OOP principles were applied
 
 III. Details of the chosen SDG and its integration into the project
